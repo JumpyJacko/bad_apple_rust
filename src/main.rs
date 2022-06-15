@@ -20,23 +20,23 @@ fn main() {
             window.set_title(&iter.to_string());
             window.set_decorations(false);
     
-            windows.insert(window.id(), window);
+            windows.insert(iter, window);
             iter += 1;
         }
     }
 
-    // println!("{:?}", windows);
-
     event_loop.run(move |event, _, control_flow| {
         *control_flow = ControlFlow::Poll;
 
+        // NOTE: Test code, works, got the 2nd windows to go invisible
+        // let key: u32 = 1;
+        // let window_1 = windows.get_key_value(&key).unwrap().1;
+        // window_1.set_visible(false); 
+
         match event {
-            Event::WindowEvent {event, window_id} => {
+            Event::WindowEvent {event, ..} => {
                 match event {
                     WindowEvent::CloseRequested => {
-                        println!("{:?} recieved request to close", window_id);
-                        windows.remove(&window_id);
-
                         if windows.is_empty() {
                             *control_flow = ControlFlow::Exit
                         }
