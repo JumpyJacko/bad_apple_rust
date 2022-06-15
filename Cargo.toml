@@ -7,4 +7,3 @@ edition = "2018"
 
 [dependencies]
 winit = "0.26.1"
-simple_logger = "2.1.0"

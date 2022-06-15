@@ -10,19 +10,25 @@ use winit::{
 fn main() {
     let event_loop = EventLoop::new();
     let mut windows = HashMap::new();
-    for i in 0..18 {
-        for j in 0..10 {
+
+    let mut iter: u32 = 0;
+    for i in 0..10 {
+        for j in 0..20 {
             let window = Window::new(&event_loop).unwrap();
-            window.set_inner_size(PhysicalSize::new(210, 210));
-            window.set_outer_position(PhysicalPosition::new(i*210, j*200));
+            window.set_inner_size(PhysicalSize::new(50, 35));
+            window.set_outer_position(PhysicalPosition::new((j*70)+30, (i*85)+70));
+            window.set_title(&iter.to_string());
             window.set_decorations(false);
     
             windows.insert(window.id(), window);
+            iter += 1;
         }
     }
 
+    // println!("{:?}", windows);
+
     event_loop.run(move |event, _, control_flow| {
-        *control_flow = ControlFlow::Wait;
+        *control_flow = ControlFlow::Poll;
 
         match event {
             Event::WindowEvent {event, window_id} => {
