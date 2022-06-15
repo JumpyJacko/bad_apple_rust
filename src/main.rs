@@ -3,18 +3,19 @@ use std::collections::HashMap;
 use winit::{
     event::{Event, WindowEvent},
     event_loop::{ControlFlow, EventLoop},
-    window::{WindowBuilder, Window},
+    window::Window,
     dpi::{PhysicalPosition, PhysicalSize}
 };
 
 fn main() {
     let event_loop = EventLoop::new();
     let mut windows = HashMap::new();
-    for i in 0..13 {
-        for j in 0..7 {
+    for i in 0..18 {
+        for j in 0..10 {
             let window = Window::new(&event_loop).unwrap();
-            window.set_inner_size(PhysicalSize::new(300, 300));
-            window.set_outer_position(PhysicalPosition::new(i*300, j*290));
+            window.set_inner_size(PhysicalSize::new(210, 210));
+            window.set_outer_position(PhysicalPosition::new(i*210, j*200));
+            window.set_decorations(false);
     
             windows.insert(window.id(), window);
         }
