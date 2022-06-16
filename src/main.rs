@@ -33,6 +33,9 @@ fn main() {
         // let window_1 = windows.get_key_value(&key).unwrap().1;
         // window_1.set_visible(false); 
 
+        // TODO: Loop through the hashmap and flash the windows for 1s
+        //       for testing purposes.
+
         match event {
             Event::WindowEvent {event, ..} => {
                 match event {
