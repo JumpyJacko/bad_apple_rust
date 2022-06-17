@@ -13,9 +13,23 @@ fn main() {
     let event_loop = EventLoop::new();
     let mut windows = HashMap::new();
 
+    let test_array: [[u32; 20]; 10] = 
+    [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ];
+
     let mut iter: u32 = 0;
-    for i in 0..4 {         // TODO: Change to 10 and 20
-        for j in 0..5 {
+    for i in 0..10 {         // TODO: Change to 10 and 20
+        for j in 0..20 {
             let window = Window::new(&event_loop).unwrap();
             window.set_inner_size(PhysicalSize::new(50, 35));
             window.set_outer_position(PhysicalPosition::new((j*70)+30, (i*85)+70));
@@ -30,20 +44,26 @@ fn main() {
         *control_flow = ControlFlow::Wait;
 
         // TODO: Loop through the hashmap and flash the windows for 1s
-        //       for testing purposes.
+        //       for testing purposes. DONE
 
-        // NOTE: Test code, works, got to move a window and move it back
-        // let key: u32 = 1;                                                Creates variables to work with the window
-        // let window_1 = windows.get_key_value(&key).unwrap().1;           Gets the window out of the hashmap
-        // let window_pos = &window_1.outer_position().unwrap();            Saves the position of the window
+        // NOTE: formula for advancing frame by frame through the 2D array.
+        //       y_index + (10 * frame[that starts from 0])
 
-        // window_1.set_outer_position(PhysicalPosition::new(1000, 500));   Sets position of the window to some place
+        for i in &windows {
+            let window_1 = i.1;
+            let window_pos = &window_1.outer_position().unwrap();
 
-        // thread::sleep(time::Duration::from_millis(1000));                Waits for 1 second
+            let index = *i.0 as usize;
+            let y_index = (&index % 20);
+            let x_index = (&index / 20);
+            // println!("{:?}: ({:?}, {:?})", index, index1, index2);
 
-        // window_1.set_outer_position(*window_pos);                        Sets position of the window to original place
-
-        // thread::sleep(time::Duration::from_millis(2000));                Waits for 2 seconds
+            if test_array[x_index][y_index] == 1 {
+                window_1.set_outer_position(PhysicalPosition::new(1700, 540));
+            } else {
+                window_1.set_outer_position(*window_pos);
+            }
+        }
 
         match event {
             Event::WindowEvent {event, ..} => {
