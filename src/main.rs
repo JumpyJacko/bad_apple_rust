@@ -28,7 +28,7 @@ fn main() {
     ];
 
     let mut iter: u32 = 0;
-    for i in 0..10 {         // TODO: Change to 10 and 20
+    for i in 0..10 {
         for j in 0..20 {
             let window = Window::new(&event_loop).unwrap();
             window.set_inner_size(PhysicalSize::new(50, 35));
@@ -43,25 +43,27 @@ fn main() {
     event_loop.run(move |event, _, control_flow| {
         *control_flow = ControlFlow::Wait;
 
-        // TODO: Loop through the hashmap and flash the windows for 1s
-        //       for testing purposes. DONE
-
         // NOTE: formula for advancing frame by frame through the 2D array.
         //       y_index + (10 * frame[that starts from 0])
+        //
+        //       Will have to nest this code below in another for loop
+        //       that is "for frames in length/10".
 
         for i in &windows {
             let window_1 = i.1;
-            let window_pos = &window_1.outer_position().unwrap();
 
             let index = *i.0 as usize;
-            let y_index = (&index % 20);
-            let x_index = (&index / 20);
+            let y_index = &index % 20;
+            let x_index = &index / 20;
+
+            let window_pos = PhysicalPosition::new((x_index as u32 *70)+30, (y_index as u32 *85)+70);
+
             // println!("{:?}: ({:?}, {:?})", index, index1, index2);
 
             if test_array[x_index][y_index] == 1 {
                 window_1.set_outer_position(PhysicalPosition::new(1700, 540));
             } else {
-                window_1.set_outer_position(*window_pos);
+                window_1.set_outer_position(window_pos);
             }
         }
 
